@@ -1,0 +1,12 @@
+Subject: Following up: Referral Request for {job_title}
+
+Hi {first_name},
+
+I wanted to follow up on my email from earlier this week regarding a potential referral for the {job_title} position at {company}.
+
+I understand you're busy, so no worries if you haven't had a chance to review my resume yet. If you're able to provide a referral, I would be very grateful. If not, I completely understand.
+
+Thank you for your time!
+
+Best regards,
+{YOUR_NAME}

@@ -1,0 +1,16 @@
+Subject: Referral Request for {job_title} at {company}
+
+Hi {first_name},
+
+I hope this email finds you well! My name is {YOUR_NAME}, and I'm reaching out because I recently came across the {job_title} position at {company}. I'm very interested in this opportunity and believe my background aligns well with the role.
+
+I noticed from your LinkedIn that you work at {company} as a {recipient_title}. I was wondering if you would be open to providing a referral for this position. You can find my resume and background here: {YOUR_LINKEDIN}
+
+I would really appreciate any support you could provide. I'm happy to answer any questions about my background or share additional information if helpful.
+
+Thank you so much for considering my request. I completely understand if you're unable to help at this time.
+
+Best regards,
+{YOUR_NAME}
+{YOUR_EMAIL}
+{YOUR_LINKEDIN}
