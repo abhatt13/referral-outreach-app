@@ -1,5 +1,7 @@
 # Referral Outreach Automation App
 
+![CI](https://github.com/abhatt13/referral-outreach-app/actions/workflows/ci.yml/badge.svg)
+
 Automate your job referral requests by finding employees at target companies and sending personalized cold emails with automatic follow-ups.
 
 ## Features
