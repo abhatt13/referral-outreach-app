@@ -319,3 +319,15 @@ Email sent successfully to tucastro@shutterstock.com. Message ID: 199bfa3b982008
   $ xcode-select --install
   $ pip install watchdog
             
+  Stopping...
+
+  You can now view your Streamlit app in your browser.
+
+  Network URL: http://10.0.0.208:8501
+  External URL: http://73.17.190.93:8501
+
+  For better performance, install the Watchdog module:
+
+  $ xcode-select --install
+  $ pip install watchdog
+            
