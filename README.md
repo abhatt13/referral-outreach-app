@@ -24,6 +24,11 @@ cd ~/referral-outreach-app
 pip install -r requirements.txt
 ```
 
+**Important:** If you have an existing database from a previous version, run the migration script:
+```bash
+python migrate_db.py
+```
+
 ### 2. Configure Apollo.io API
 
 1. Sign up for [Apollo.io](https://www.apollo.io/)
