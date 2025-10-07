@@ -49,11 +49,12 @@ jobs:
         python -c "from src.database import Database; print('Database import successful')"
         python -c "from src.apollo_client import ApolloClient; print('ApolloClient import successful')"
         python -c "from src.gmail_client import GmailClient; print('GmailClient import successful')"
-        python -c "from src.email_templates import TemplateManager; print('TemplateManager import successful')"
+        python -c "from src.email_templates import EmailTemplateManager; print('EmailTemplateManager import successful')"
         python -c "from src.resume_parser import ResumeParser; print('ResumeParser import successful')"
         python -c "from src.job_parser import JobParser; print('JobParser import successful')"
         python -c "from src.scheduler import FollowUpScheduler; print('FollowUpScheduler import successful')"
         python -c "from src.auth import AuthManager; print('AuthManager import successful')"
+        python -c "from src.auth_ui import check_authentication; print('AuthUI import successful')"
         python -c "from src.payment import PaymentManager; print('PaymentManager import successful')"
 
     - name: Run pytest tests
