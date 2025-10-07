@@ -212,3 +212,110 @@ Email sent successfully to mgenualdi@drw.com. Message ID: 199b6212d87e9b93
   $ pip install watchdog
             
   Stopping...
+
+  You can now view your Streamlit app in your browser.
+
+  Network URL: http://10.0.0.208:8501
+  External URL: http://73.17.190.93:8501
+
+  For better performance, install the Watchdog module:
+
+  $ xcode-select --install
+  $ pip install watchdog
+            
+
+  A new version of Streamlit is available.
+
+  See what's new at https://discuss.streamlit.io/c/announcements
+
+  Enter the following command to upgrade:
+  $ pip install streamlit --upgrade
+
+Successfully revealed email: sdornala@travelers.com
+Email reveal failed or no credits remaining for person 5b3612e0a6da980bff7bba8a
+Successfully revealed email: lwen@travelers.com
+Successfully revealed email: vpotter@travelers.com
+Successfully revealed email: kkolstad@travelers.com
+Successfully revealed email: elizabeth.stevanus@stpaul.com
+Email reveal failed or no credits remaining for person 54a236ee74686933182f4716
+Successfully revealed email: capeter2@travelers.com
+Email reveal failed or no credits remaining for person 54a1277569702d9ebc426d00
+Email reveal failed or no credits remaining for person 5b19e28aa6da98e10f483fb1
+Email sent successfully to sdornala@travelers.com. Message ID: 199bf762a1aacbe1
+Email sent successfully to lwen@travelers.com. Message ID: 199bf762cb4dba5b
+Email sent successfully to vpotter@travelers.com. Message ID: 199bf762e7a45735
+Email sent successfully to kkolstad@travelers.com. Message ID: 199bf762eb96fe2e
+Email sent successfully to elizabeth.stevanus@stpaul.com. Message ID: 199bf7631b9d6e5e
+Email sent successfully to capeter2@travelers.com. Message ID: 199bf76331708300
+Email reveal failed or no credits remaining for person 5b1d81b5a6da980783d96797
+Email reveal failed or no credits remaining for person 631212df32fa8c00012db7a3
+Successfully revealed email: marcos.eizayaga@trexquant.com
+Successfully revealed email: longtao.han@trexquant.com
+Email reveal failed or no credits remaining for person 6713276ca0d93c00012ba6e3
+Successfully revealed email: manshul.chhabra@trexquant.com
+Successfully revealed email: naveen.dongre@trexquant.com
+Successfully revealed email: david.cooper@trexquant.com
+Email reveal failed or no credits remaining for person 679fdeca335cd100019b8a76
+Successfully revealed email: bhavitha.budeti@trexquant.com
+Email sent successfully to marcos.eizayaga@trexquant.com. Message ID: 199bf79742950fa4
+Email sent successfully to longtao.han@trexquant.com. Message ID: 199bf79763f3d262
+Email sent successfully to manshul.chhabra@trexquant.com. Message ID: 199bf797903525b4
+Email sent successfully to naveen.dongre@trexquant.com. Message ID: 199bf797b997ac87
+Email sent successfully to david.cooper@trexquant.com. Message ID: 199bf797c3edf02b
+Email sent successfully to bhavitha.budeti@trexquant.com. Message ID: 199bf797eef45a80
+Successfully revealed email: joshg@emergentsoftware.net
+Successfully revealed email: jasona@emergentsoftware.net
+Email reveal failed or no credits remaining for person 54a9edcf7468693399472b1b
+Successfully revealed email: aaront@emergentsoftware.net
+Email reveal failed or no credits remaining for person 57d72e65a6da980629e60649
+Successfully revealed email: jonr@emergentsoftware.net
+Successfully revealed email: juliannam@emergentsoftware.net
+Email reveal failed or no credits remaining for person 66dfc0e773ca030001eb4354
+Successfully revealed email: seanh@emergentsoftware.net
+Successfully revealed email: joshuah@emergentsoftware.net
+Email sent successfully to joshg@emergentsoftware.net. Message ID: 199bf7cfdbc485aa
+Email sent successfully to jasona@emergentsoftware.net. Message ID: 199bf7cfc53266b8
+Email sent successfully to aaront@emergentsoftware.net. Message ID: 199bf7cfe19e8536
+Email sent successfully to jonr@emergentsoftware.net. Message ID: 199bf7d0101ca9ea
+Email sent successfully to juliannam@emergentsoftware.net. Message ID: 199bf7d037c4ebfa
+Email sent successfully to seanh@emergentsoftware.net. Message ID: 199bf7d05640008d
+Email sent successfully to joshuah@emergentsoftware.net. Message ID: 199bf7d077e8df30
+Successfully revealed email: jbaumgartner@rbcbearings.com
+Successfully revealed email: jbaumgartner@rbcbearings.com
+Email sent successfully to jbaumgartner@rbcbearings.com. Message ID: 199bf82429935b3c
+Successfully revealed email: dwhelan@shutterstock.com
+Successfully revealed email: jstraub@shutterstock.com
+Successfully revealed email: imade@shutterstock.com
+Successfully revealed email: flamant@shutterstock.com
+Successfully revealed email: ckaminer@shutterstock.com
+Successfully revealed email: jdietz@shutterstock.com
+Successfully revealed email: cgagon@shutterstock.com
+Successfully revealed email: gchiodo@shutterstock.com
+Successfully revealed email: mkitzman@shutterstock.com
+Successfully revealed email: aduggal@shutterstock.com
+Successfully revealed email: lmiller@shutterstock.com
+Successfully revealed email: tucastro@shutterstock.com
+Email sent successfully to dwhelan@shutterstock.com. Message ID: 199bfa3a83fe48fd
+Email sent successfully to jstraub@shutterstock.com. Message ID: 199bfa3ab706b4be
+Email sent successfully to imade@shutterstock.com. Message ID: 199bfa3ab5c00528
+Email sent successfully to flamant@shutterstock.com. Message ID: 199bfa3ad69ae692
+Email sent successfully to ckaminer@shutterstock.com. Message ID: 199bfa3ae3f79730
+Email sent successfully to jdietz@shutterstock.com. Message ID: 199bfa3af60f8b6e
+Email sent successfully to cgagon@shutterstock.com. Message ID: 199bfa3b12643440
+Email sent successfully to gchiodo@shutterstock.com. Message ID: 199bfa3b32c4678b
+Email sent successfully to mkitzman@shutterstock.com. Message ID: 199bfa3b585a0868
+Email sent successfully to aduggal@shutterstock.com. Message ID: 199bfa3b6aa39419
+Email sent successfully to lmiller@shutterstock.com. Message ID: 199bfa3b6ef117be
+Email sent successfully to tucastro@shutterstock.com. Message ID: 199bfa3b982008f7
+  Stopping...
+
+  You can now view your Streamlit app in your browser.
+
+  Network URL: http://10.0.0.208:8501
+  External URL: http://73.17.190.93:8501
+
+  For better performance, install the Watchdog module:
+
+  $ xcode-select --install
+  $ pip install watchdog
+            

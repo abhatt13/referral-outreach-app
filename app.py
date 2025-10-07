@@ -16,6 +16,8 @@ from email_templates import EmailTemplateManager
 from job_parser import JobParser
 from scheduler import FollowUpScheduler
 from resume_parser import ResumeParser
+from auth_ui import check_authentication, login_signup_page, display_user_info_sidebar, handle_payment
+from auth import AuthManager, TierLimits
 
 # Load environment variables
 load_dotenv()
@@ -26,6 +28,15 @@ st.set_page_config(
     page_icon="📧",
     layout="wide"
 )
+
+# Check authentication first
+if not check_authentication():
+    login_signup_page()
+    st.stop()
+
+# Handle payment page if active
+if handle_payment():
+    st.stop()
 
 # Initialize session state
 if 'db' not in st.session_state:
@@ -52,6 +63,9 @@ if 'scheduler' not in st.session_state:
 # Title
 st.title("📧 Referral Outreach Automation")
 st.markdown("Automate your job referral requests with personalized cold emails")
+
+# Display user info in sidebar
+display_user_info_sidebar()
 
 # Sidebar for configuration
 with st.sidebar:
@@ -294,16 +308,39 @@ with tab1:
             if not st.session_state.user_configured:
                 st.error("Please configure your information in the sidebar first!")
             else:
+                # Check tier limits
+                user = st.session_state.user
+                num_emails_to_send = len([p for p in st.session_state.found_people if p.get('email')])
+
+                can_send = AuthManager.check_tier_limit(
+                    user['tier'],
+                    user['emails_sent_count'] + num_emails_to_send
+                )
+
+                if not can_send:
+                    tier_config = TierLimits.get_tier(user['tier'])
+                    remaining = AuthManager.get_remaining_emails(user['tier'], user['emails_sent_count'])
+
+                    st.error(f"❌ Email limit exceeded! You have {remaining} emails remaining in your {tier_config['name']} tier.")
+                    st.info(f"Trying to send {num_emails_to_send} emails, but you only have {remaining} remaining.")
+
+                    if user['tier'] == 'FREE':
+                        if st.button("🚀 Upgrade to Contributor Tier"):
+                            st.session_state.show_payment = True
+                            st.rerun()
+                    st.stop()
+
                 with st.spinner("Sending emails..."):
                     try:
                         # Initialize Gmail client
                         gmail = GmailClient()
 
-                        # Create campaign (returns campaign_id)
+                        # Create campaign (returns campaign_id) with user_id
                         campaign_id = st.session_state.db.create_campaign(
                             job_title=st.session_state.campaign_info['job_title'],
                             company=st.session_state.campaign_info['company'],
-                            job_description=st.session_state.campaign_info['description']
+                            job_description=st.session_state.campaign_info['description'],
+                            user_id=user['id']
                         )
 
                         sent_count = 0
@@ -359,6 +396,15 @@ with tab1:
 
                         status_text.empty()
                         progress_bar.empty()
+
+                        # Update user's email count
+                        st.session_state.db.increment_email_count(user['id'], sent_count)
+
+                        # Update user's campaign count
+                        st.session_state.db.increment_campaign_count(user['id'])
+
+                        # Refresh user data
+                        st.session_state.user = st.session_state.db.get_user_by_username(user['username'])
 
                         st.success(f"✅ Campaign completed! Sent: {sent_count}, Failed: {failed_count}")
                         st.info("Follow-up emails will be sent automatically after 1 day. Make sure the scheduler is running!")

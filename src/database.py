@@ -1,12 +1,34 @@
 """Database models and utilities for tracking outreach campaigns."""
 
-from sqlalchemy import create_engine, Column, Integer, String, DateTime, Boolean, Text
+from sqlalchemy import create_engine, Column, Integer, String, DateTime, Boolean, Text, Float, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, relationship
 from datetime import datetime
 import os
 
 Base = declarative_base()
+
+class User(Base):
+    """Model for storing user accounts."""
+    __tablename__ = 'users'
+
+    id = Column(Integer, primary_key=True)
+    email = Column(String(200), nullable=False, unique=True)
+    username = Column(String(100), nullable=False, unique=True)
+    password_hash = Column(String(200), nullable=False)
+    tier = Column(String(50), default='FREE')  # FREE or CONTRIBUTOR
+    emails_sent_count = Column(Integer, default=0)
+    campaigns_count = Column(Integer, default=0)
+    stripe_customer_id = Column(String(200))
+    subscription_active = Column(Boolean, default=False)
+    subscription_ends_at = Column(DateTime)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    last_login = Column(DateTime)
+
+    def reset_monthly_limits(self):
+        """Reset monthly usage counters."""
+        self.emails_sent_count = 0
+        self.campaigns_count = 0
 
 class Contact(Base):
     """Model for storing contact information."""
@@ -25,6 +47,7 @@ class EmailCampaign(Base):
     __tablename__ = 'email_campaigns'
 
     id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
     job_title = Column(String(300), nullable=False)
     company = Column(String(200), nullable=False)
     job_description = Column(Text)
@@ -60,6 +83,121 @@ class Database:
         """Get a new database session."""
         return self.Session()
 
+    # User Management Methods
+
+    def create_user(self, email, username, password_hash, tier='FREE'):
+        """Create a new user account."""
+        session = self.get_session()
+        try:
+            user = User(
+                email=email,
+                username=username,
+                password_hash=password_hash,
+                tier=tier
+            )
+            session.add(user)
+            session.commit()
+            user_id = user.id
+            return user_id
+        finally:
+            session.close()
+
+    def get_user_by_email(self, email):
+        """Get user by email."""
+        session = self.get_session()
+        try:
+            user = session.query(User).filter_by(email=email).first()
+            if user:
+                return {
+                    'id': user.id,
+                    'email': user.email,
+                    'username': user.username,
+                    'password_hash': user.password_hash,
+                    'tier': user.tier,
+                    'emails_sent_count': user.emails_sent_count,
+                    'campaigns_count': user.campaigns_count,
+                    'subscription_active': user.subscription_active
+                }
+            return None
+        finally:
+            session.close()
+
+    def get_user_by_username(self, username):
+        """Get user by username."""
+        session = self.get_session()
+        try:
+            user = session.query(User).filter_by(username=username).first()
+            if user:
+                return {
+                    'id': user.id,
+                    'email': user.email,
+                    'username': user.username,
+                    'password_hash': user.password_hash,
+                    'tier': user.tier,
+                    'emails_sent_count': user.emails_sent_count,
+                    'campaigns_count': user.campaigns_count,
+                    'subscription_active': user.subscription_active
+                }
+            return None
+        finally:
+            session.close()
+
+    def update_user_tier(self, user_id, tier, stripe_customer_id=None):
+        """Update user's subscription tier."""
+        session = self.get_session()
+        try:
+            user = session.query(User).filter_by(id=user_id).first()
+            if user:
+                user.tier = tier
+                user.subscription_active = (tier == 'CONTRIBUTOR')
+                if stripe_customer_id:
+                    user.stripe_customer_id = stripe_customer_id
+                if tier == 'CONTRIBUTOR':
+                    from datetime import timedelta
+                    user.subscription_ends_at = datetime.utcnow() + timedelta(days=30)
+                session.commit()
+                return True
+            return False
+        finally:
+            session.close()
+
+    def increment_email_count(self, user_id, count=1):
+        """Increment user's email sent count."""
+        session = self.get_session()
+        try:
+            user = session.query(User).filter_by(id=user_id).first()
+            if user:
+                user.emails_sent_count += count
+                session.commit()
+                return user.emails_sent_count
+            return None
+        finally:
+            session.close()
+
+    def increment_campaign_count(self, user_id):
+        """Increment user's campaign count."""
+        session = self.get_session()
+        try:
+            user = session.query(User).filter_by(id=user_id).first()
+            if user:
+                user.campaigns_count += 1
+                session.commit()
+                return user.campaigns_count
+            return None
+        finally:
+            session.close()
+
+    def update_last_login(self, user_id):
+        """Update user's last login timestamp."""
+        session = self.get_session()
+        try:
+            user = session.query(User).filter_by(id=user_id).first()
+            if user:
+                user.last_login = datetime.utcnow()
+                session.commit()
+        finally:
+            session.close()
+
     def add_contact(self, name, email, title, company, linkedin_url=None):
         """Add a new contact to the database."""
         session = self.get_session()
@@ -85,11 +223,12 @@ class Database:
         finally:
             session.close()
 
-    def create_campaign(self, job_title, company, job_description):
+    def create_campaign(self, job_title, company, job_description, user_id=None):
         """Create a new email campaign."""
         session = self.get_session()
         try:
             campaign = EmailCampaign(
+                user_id=user_id,
                 job_title=job_title,
                 company=company,
                 job_description=job_description

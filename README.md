@@ -6,6 +6,8 @@ Automate your job referral requests by finding employees at target companies and
 
 ## Features
 
+- 🔐 **JWT Authentication**: Secure login/signup system with user accounts
+- 💎 **Tiered Pricing**: Free tier (3 emails) and Contributor tier (30 emails for $5/month)
 - 🔍 **People Search**: Automatically find employees at companies using Apollo.io
 - 📧 **Email Automation**: Send personalized cold emails via Gmail
 - ⏰ **Auto Follow-ups**: Automatically send follow-up emails after 1 day
@@ -42,7 +44,28 @@ pip install -r requirements.txt
 5. Save the downloaded file as `credentials.json` in the project root
 6. First time you run the app, it will open a browser for OAuth authentication
 
-### 4. Customize Your Information
+### 4. Configure Authentication (Optional but Recommended)
+
+Update the JWT secret key in `.env`:
+```
+JWT_SECRET_KEY=your-very-secure-secret-key-here
+```
+
+For production deployment with Stripe payments, add your Stripe keys:
+```
+STRIPE_SECRET_KEY=sk_live_...
+STRIPE_PUBLISHABLE_KEY=pk_live_...
+STRIPE_WEBHOOK_SECRET=whsec_...
+```
+
+### 5. Create an Account
+
+1. Run the app for the first time
+2. Click on "Sign Up" tab
+3. Create your account with email, username, and password
+4. Login with your credentials
+
+### 6. Customize Your Information
 
 In the app sidebar, configure:
 - Your name
@@ -50,7 +73,21 @@ In the app sidebar, configure:
 - Your LinkedIn URL
 - Your 3 key skills/experiences
 
-### 5. Customize Email Templates (Optional)
+## Pricing Tiers
+
+### Free Tier
+- ✅ 3 email sends per month
+- ✅ 1 campaign per month
+- ✅ All core features
+
+### Contributor Tier - $5/month
+- ✅ 30 email sends per month
+- ✅ 10 campaigns per month
+- ✅ All features unlocked
+
+Upgrade directly from the app sidebar!
+
+### 7. Customize Email Templates (Optional)
 
 Edit the templates in the `templates/` folder:
 - `initial_email.txt` - First outreach email
