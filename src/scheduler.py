@@ -4,9 +4,9 @@ import time
 from datetime import datetime, timedelta
 from typing import Optional
 import threading
-from database import Database
-from gmail_client import GmailClient
-from email_templates import EmailTemplateManager
+from src.database import Database
+from src.gmail_client import GmailClient
+from src.email_templates import EmailTemplateManager
 
 class FollowUpScheduler:
     """Scheduler for sending automated follow-up emails."""
