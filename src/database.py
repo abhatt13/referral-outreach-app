@@ -25,6 +25,10 @@ class User(Base):
     created_at = Column(DateTime, default=datetime.utcnow)
     last_login = Column(DateTime)
 
+    # Gmail OAuth credentials (stored per user)
+    gmail_token = Column(Text)  # Pickled token data
+    gmail_authenticated = Column(Boolean, default=False)
+
     def reset_monthly_limits(self):
         """Reset monthly usage counters."""
         self.emails_sent_count = 0
@@ -116,7 +120,8 @@ class Database:
                     'tier': user.tier,
                     'emails_sent_count': user.emails_sent_count,
                     'campaigns_count': user.campaigns_count,
-                    'subscription_active': user.subscription_active
+                    'subscription_active': user.subscription_active,
+                    'gmail_authenticated': user.gmail_authenticated or False
                 }
             return None
         finally:
@@ -136,7 +141,8 @@ class Database:
                     'tier': user.tier,
                     'emails_sent_count': user.emails_sent_count,
                     'campaigns_count': user.campaigns_count,
-                    'subscription_active': user.subscription_active
+                    'subscription_active': user.subscription_active,
+                    'gmail_authenticated': user.gmail_authenticated or False
                 }
             return None
         finally:
@@ -195,6 +201,55 @@ class Database:
             if user:
                 user.last_login = datetime.utcnow()
                 session.commit()
+        finally:
+            session.close()
+
+    def save_gmail_token(self, user_id, token_data):
+        """Save Gmail OAuth token for a user."""
+        session = self.get_session()
+        try:
+            user = session.query(User).filter_by(id=user_id).first()
+            if user:
+                import pickle
+                import base64
+                # Serialize and encode token
+                token_bytes = pickle.dumps(token_data)
+                token_str = base64.b64encode(token_bytes).decode('utf-8')
+                user.gmail_token = token_str
+                user.gmail_authenticated = True
+                session.commit()
+                return True
+            return False
+        finally:
+            session.close()
+
+    def get_gmail_token(self, user_id):
+        """Get Gmail OAuth token for a user."""
+        session = self.get_session()
+        try:
+            user = session.query(User).filter_by(id=user_id).first()
+            if user and user.gmail_token:
+                import pickle
+                import base64
+                # Decode and deserialize token
+                token_bytes = base64.b64decode(user.gmail_token)
+                token_data = pickle.loads(token_bytes)
+                return token_data
+            return None
+        finally:
+            session.close()
+
+    def revoke_gmail_token(self, user_id):
+        """Revoke Gmail OAuth token for a user."""
+        session = self.get_session()
+        try:
+            user = session.query(User).filter_by(id=user_id).first()
+            if user:
+                user.gmail_token = None
+                user.gmail_authenticated = False
+                session.commit()
+                return True
+            return False
         finally:
             session.close()
 

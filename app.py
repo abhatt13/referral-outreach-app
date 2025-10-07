@@ -16,7 +16,7 @@ from email_templates import EmailTemplateManager
 from job_parser import JobParser
 from scheduler import FollowUpScheduler
 from resume_parser import ResumeParser
-from auth_ui import check_authentication, login_signup_page, display_user_info_sidebar, handle_payment
+from auth_ui import check_authentication, login_signup_page, display_user_info_sidebar, handle_payment, gmail_authentication_ui
 from auth import AuthManager, TierLimits
 
 # Load environment variables
@@ -66,6 +66,9 @@ st.markdown("Automate your job referral requests with personalized cold emails")
 
 # Display user info in sidebar
 display_user_info_sidebar()
+
+# Display Gmail authentication UI
+gmail_authentication_ui()
 
 # Sidebar for configuration
 with st.sidebar:
@@ -330,10 +333,27 @@ with tab1:
                             st.rerun()
                     st.stop()
 
+                # Check if user has authenticated Gmail
+                if not user.get('gmail_authenticated'):
+                    st.error("❌ Please connect your Gmail account in the sidebar before sending emails!")
+                    st.stop()
+
                 with st.spinner("Sending emails..."):
                     try:
-                        # Initialize Gmail client
-                        gmail = GmailClient()
+                        # Initialize multi-user Gmail client
+                        from gmail_client_multi import MultiUserGmailClient
+                        gmail = MultiUserGmailClient()
+
+                        # Get user's Gmail token
+                        token_data = st.session_state.db.get_gmail_token(user['id'])
+                        if not token_data:
+                            st.error("❌ Gmail authentication error. Please reconnect your Gmail account.")
+                            st.stop()
+
+                        # Authenticate with user's token
+                        if not gmail.authenticate_with_token(token_data):
+                            st.error("❌ Failed to authenticate Gmail. Please reconnect your Gmail account.")
+                            st.stop()
 
                         # Create campaign (returns campaign_id) with user_id
                         campaign_id = st.session_state.db.create_campaign(
