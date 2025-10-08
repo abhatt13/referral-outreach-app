@@ -143,6 +143,18 @@ def gmail_authentication_ui():
         st.sidebar.warning("⚠️ Gmail Not Connected")
         st.sidebar.info("Connect your Gmail to send emails")
 
+        with st.sidebar.expander("ℹ️ How to Connect Gmail"):
+            st.markdown("""
+            **Quick Setup:**
+            1. Click "Connect Gmail Account" below
+            2. Click the authorization link
+            3. **Important:** Click "Advanced" → "Go to App (unsafe)" on the warning
+            4. Authorize the app
+            5. Copy the code and paste it here
+
+            *The warning is normal - the app only sends emails, nothing else!*
+            """)
+
         if st.sidebar.button("Connect Gmail Account"):
             try:
                 gmail_client = MultiUserGmailClient()

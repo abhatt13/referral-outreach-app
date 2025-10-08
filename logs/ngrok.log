@@ -1330,3 +1330,89 @@ t=2025-10-07T16:15:53-0400 lvl=info msg="join connections" obj=join id=8ccb4a2e8
 t=2025-10-07T16:15:53-0400 lvl=info msg="join connections" obj=join id=4af4cc5957ff l=127.0.0.1:8501 r=[2601:19b:702:40e0:a9f9:5a59:f04e:3625]:49330
 t=2025-10-07T16:15:53-0400 lvl=info msg="join connections" obj=join id=37eb1855c45f l=127.0.0.1:8501 r=[2601:19b:702:40e0:a9f9:5a59:f04e:3625]:49330
 t=2025-10-07T16:15:53-0400 lvl=info msg="join connections" obj=join id=70b49174289e l=127.0.0.1:8501 r=[2601:19b:702:40e0:a9f9:5a59:f04e:3625]:49330
+t=2025-10-07T16:26:15-0400 lvl=info msg="join connections" obj=join id=9fd5592ffe0e l=127.0.0.1:8501 r=[2601:19b:702:40e0:acb4:6ca1:2b01:f3df]:53304
+t=2025-10-07T16:26:16-0400 lvl=info msg="join connections" obj=join id=db6d51e7c54d l=127.0.0.1:8501 r=[2601:19b:702:40e0:acb4:6ca1:2b01:f3df]:53311
+t=2025-10-07T16:26:16-0400 lvl=info msg="join connections" obj=join id=b4296397a355 l=127.0.0.1:8501 r=[2601:19b:702:40e0:acb4:6ca1:2b01:f3df]:53311
+t=2025-10-07T16:26:16-0400 lvl=info msg="join connections" obj=join id=595ef577d6c6 l=127.0.0.1:8501 r=[2601:19b:702:40e0:2850:da7e:7370:e73c]:53316
+t=2025-10-07T16:28:15-0400 lvl=info msg="join connections" obj=join id=fe6613f90406 l=127.0.0.1:8501 r=[2601:19b:702:40e0:acb4:6ca1:2b01:f3df]:53380
+t=2025-10-07T16:28:15-0400 lvl=info msg="join connections" obj=join id=d431271a242f l=127.0.0.1:8501 r=[2601:19b:702:40e0:acb4:6ca1:2b01:f3df]:53380
+t=2025-10-07T16:28:15-0400 lvl=info msg="join connections" obj=join id=172d682b36fe l=127.0.0.1:8501 r=[2601:19b:702:40e0:acb4:6ca1:2b01:f3df]:53380
+t=2025-10-07T16:28:15-0400 lvl=info msg="join connections" obj=join id=8f74d91f4d26 l=127.0.0.1:8501 r=[2601:19b:702:40e0:acb4:6ca1:2b01:f3df]:53380
+t=2025-10-07T16:28:15-0400 lvl=info msg="join connections" obj=join id=12ea39f3e4fb l=127.0.0.1:8501 r=[2601:19b:702:40e0:acb4:6ca1:2b01:f3df]:53380
+t=2025-10-07T16:28:15-0400 lvl=info msg="join connections" obj=join id=5afbd2bcef65 l=127.0.0.1:8501 r=[2601:19b:702:40e0:acb4:6ca1:2b01:f3df]:53380
+t=2025-10-07T16:30:27-0400 lvl=info msg="join connections" obj=join id=4b1b9592b651 l=127.0.0.1:8501 r=35.233.94.99:33106
+t=2025-10-07T16:30:27-0400 lvl=info msg="join connections" obj=join id=b2e46ce713c8 l=127.0.0.1:8501 r=35.205.128.136:41478
+t=2025-10-07T17:05:48-0400 lvl=info msg="join connections" obj=join id=b34ddaf07343 l=127.0.0.1:8501 r=[2601:19b:702:40e0:acb4:6ca1:2b01:f3df]:53728
+t=2025-10-07T17:05:48-0400 lvl=info msg="join connections" obj=join id=cbc8a22af415 l=127.0.0.1:8501 r=[2601:19b:702:40e0:acb4:6ca1:2b01:f3df]:53728
+t=2025-10-07T17:05:49-0400 lvl=info msg="join connections" obj=join id=c95a4c94dbfd l=127.0.0.1:8501 r=[2601:19b:702:40e0:acb4:6ca1:2b01:f3df]:53739
+t=2025-10-07T17:11:36-0400 lvl=eror msg="session closed, starting reconnect loop" obj=tunnels.session obj=csess id=860da888befa err="read tcp [2601:19b:702:40e0:acb4:6ca1:2b01:f3df]:52774->[2600:1f16:d83:1200::6e74:3]:443: read: connection reset by peer"
+t=2025-10-07T17:11:37-0400 lvl=info msg="client session established" obj=tunnels.session
+t=2025-10-07T17:11:37-0400 lvl=info msg="tunnel session started" obj=tunnels.session
+t=2025-10-07T17:26:57-0400 lvl=eror msg="session closed, starting reconnect loop" obj=tunnels.session obj=csess id=860da888befa err="read tcp 10.0.0.208:53781->3.136.132.147:443: read: connection reset by peer"
+t=2025-10-07T17:26:58-0400 lvl=info msg="client session established" obj=tunnels.session
+t=2025-10-07T17:26:58-0400 lvl=info msg="tunnel session started" obj=tunnels.session
+t=2025-10-07T17:27:56-0400 lvl=eror msg="heartbeat timeout, terminating session" obj=tunnels.session obj=csess id=bd0eda73bad7 clientid=b963f82293f797df62b181834af7ad61
+t=2025-10-07T17:28:05-0400 lvl=eror msg="heartbeat timeout, terminating session" obj=tunnels.session obj=csess id=d8bf05d5c9ec clientid=b963f82293f797df62b181834af7ad61
+t=2025-10-07T17:49:23-0400 lvl=eror msg="heartbeat timeout, terminating session" obj=tunnels.session obj=csess id=559c06d47210 clientid=b963f82293f797df62b181834af7ad61
+t=2025-10-07T17:49:23-0400 lvl=eror msg="session closed, starting reconnect loop" obj=tunnels.session obj=csess id=860da888befa err="session closed"
+t=2025-10-07T17:49:24-0400 lvl=info msg="client session established" obj=tunnels.session
+t=2025-10-07T17:49:24-0400 lvl=info msg="tunnel session started" obj=tunnels.session
+t=2025-10-07T18:05:14-0400 lvl=eror msg="session closed, starting reconnect loop" obj=tunnels.session obj=csess id=860da888befa err="read tcp [2601:19b:702:40e0:acb4:6ca1:2b01:f3df]:54096->[2600:1f16:d83:1202::6e74:2]:443: read: connection reset by peer"
+t=2025-10-07T18:05:15-0400 lvl=info msg="client session established" obj=tunnels.session
+t=2025-10-07T18:05:15-0400 lvl=info msg="tunnel session started" obj=tunnels.session
+t=2025-10-07T18:05:15-0400 lvl=info msg="join connections" obj=join id=b0394cc17b84 l=127.0.0.1:8501 r=[2601:19b:702:40e0:acb4:6ca1:2b01:f3df]:54161
+t=2025-10-07T18:05:15-0400 lvl=info msg="join connections" obj=join id=a6eaa47b656d l=127.0.0.1:8501 r=[2601:19b:702:40e0:acb4:6ca1:2b01:f3df]:54161
+t=2025-10-07T18:05:16-0400 lvl=info msg="join connections" obj=join id=9e79f196834a l=127.0.0.1:8501 r=[2601:19b:702:40e0:acb4:6ca1:2b01:f3df]:54168
+t=2025-10-07T18:20:18-0400 lvl=eror msg="session closed, starting reconnect loop" obj=tunnels.session obj=csess id=860da888befa err="read tcp [2601:19b:702:40e0:acb4:6ca1:2b01:f3df]:54159->[2600:1f16:d83:1200::6e74:0]:443: read: connection reset by peer"
+t=2025-10-07T18:20:19-0400 lvl=info msg="client session established" obj=tunnels.session
+t=2025-10-07T18:20:19-0400 lvl=info msg="tunnel session started" obj=tunnels.session
+t=2025-10-07T18:20:30-0400 lvl=eror msg="heartbeat timeout, terminating session" obj=tunnels.session obj=csess id=a3d2e6ca1967 clientid=b963f82293f797df62b181834af7ad61
+t=2025-10-07T18:39:53-0400 lvl=eror msg="session closed, starting reconnect loop" obj=tunnels.session obj=csess id=860da888befa err="read tcp [2601:19b:702:40e0:2850:da7e:7370:e73c]:54241->[2600:1f16:d83:1200::6e74:0]:443: read: connection reset by peer"
+t=2025-10-07T18:39:53-0400 lvl=eror msg="heartbeat timeout, terminating session" obj=tunnels.session obj=csess id=36d86959a137 clientid=b963f82293f797df62b181834af7ad61
+t=2025-10-07T18:39:53-0400 lvl=info msg="client session established" obj=tunnels.session
+t=2025-10-07T18:39:53-0400 lvl=info msg="tunnel session started" obj=tunnels.session
+t=2025-10-07T19:06:48-0400 lvl=eror msg="session closed, starting reconnect loop" obj=tunnels.session obj=csess id=860da888befa err="read tcp [2601:19b:702:40e0:acb4:6ca1:2b01:f3df]:54329->[2600:1f16:d83:1200::6e74:0]:443: read: connection reset by peer"
+t=2025-10-07T19:06:49-0400 lvl=info msg="client session established" obj=tunnels.session
+t=2025-10-07T19:06:49-0400 lvl=info msg="tunnel session started" obj=tunnels.session
+t=2025-10-07T19:06:51-0400 lvl=eror msg="heartbeat timeout, terminating session" obj=tunnels.session obj=csess id=98c537436156 clientid=b963f82293f797df62b181834af7ad61
+t=2025-10-07T19:23:14-0400 lvl=eror msg="heartbeat timeout, terminating session" obj=tunnels.session obj=csess id=683b6f9084c7 clientid=b963f82293f797df62b181834af7ad61
+t=2025-10-07T19:23:21-0400 lvl=eror msg="session closed, starting reconnect loop" obj=tunnels.session obj=csess id=860da888befa err="read tcp [2601:19b:702:40e0:2850:da7e:7370:e73c]:54445->[2600:1f16:d83:1200::6e74:3]:443: read: connection reset by peer"
+t=2025-10-07T19:23:22-0400 lvl=info msg="client session established" obj=tunnels.session
+t=2025-10-07T19:23:22-0400 lvl=info msg="tunnel session started" obj=tunnels.session
+t=2025-10-07T19:23:24-0400 lvl=info msg="join connections" obj=join id=38272fb34b53 l=127.0.0.1:8501 r=[2601:19b:702:40e0:acb4:6ca1:2b01:f3df]:54620
+t=2025-10-07T19:23:24-0400 lvl=info msg="join connections" obj=join id=6e83223cd807 l=127.0.0.1:8501 r=[2601:19b:702:40e0:acb4:6ca1:2b01:f3df]:54620
+t=2025-10-07T19:23:24-0400 lvl=info msg="join connections" obj=join id=eba0cc19287b l=127.0.0.1:8501 r=[2601:19b:702:40e0:acb4:6ca1:2b01:f3df]:54625
+t=2025-10-07T19:27:00-0400 lvl=eror msg="session closed, starting reconnect loop" obj=tunnels.session obj=csess id=860da888befa err="read tcp [2601:19b:702:40e0:acb4:6ca1:2b01:f3df]:54599->[2600:1f16:d83:1201::6e74:4]:443: read: connection reset by peer"
+t=2025-10-07T19:27:02-0400 lvl=info msg="client session established" obj=tunnels.session
+t=2025-10-07T19:27:02-0400 lvl=info msg="tunnel session started" obj=tunnels.session
+t=2025-10-07T19:27:04-0400 lvl=eror msg="heartbeat timeout, terminating session" obj=tunnels.session obj=csess id=21e487de5a66 clientid=b963f82293f797df62b181834af7ad61
+t=2025-10-07T19:27:45-0400 lvl=eror msg="heartbeat timeout, terminating session" obj=tunnels.session obj=csess id=a803da65f46a clientid=b963f82293f797df62b181834af7ad61
+t=2025-10-07T19:27:56-0400 lvl=eror msg="heartbeat timeout, terminating session" obj=tunnels.session obj=csess id=fc8438fe3a39 clientid=b963f82293f797df62b181834af7ad61
+t=2025-10-07T19:27:56-0400 lvl=eror msg="session closed, starting reconnect loop" obj=tunnels.session obj=csess id=860da888befa err="session closed"
+t=2025-10-07T19:27:56-0400 lvl=info msg="client session established" obj=tunnels.session
+t=2025-10-07T19:27:56-0400 lvl=info msg="tunnel session started" obj=tunnels.session
+t=2025-10-07T19:28:11-0400 lvl=info msg="join connections" obj=join id=20b1b7e3656c l=127.0.0.1:8501 r=[2601:19b:702:40e0:2850:da7e:7370:e73c]:54758
+t=2025-10-07T19:28:11-0400 lvl=info msg="join connections" obj=join id=86e3306c6f68 l=127.0.0.1:8501 r=[2601:19b:702:40e0:2850:da7e:7370:e73c]:54758
+t=2025-10-07T19:28:19-0400 lvl=info msg="join connections" obj=join id=16b748ace8ad l=127.0.0.1:8501 r=[2601:19b:702:40e0:acb4:6ca1:2b01:f3df]:54764
+t=2025-10-07T19:29:12-0400 lvl=eror msg="session closed, starting reconnect loop" obj=tunnels.session obj=csess id=860da888befa err="read tcp [2601:19b:702:40e0:acb4:6ca1:2b01:f3df]:54720->[2600:1f16:d83:1201::6e74:4]:443: read: connection reset by peer"
+t=2025-10-07T19:29:12-0400 lvl=info msg="client session established" obj=tunnels.session
+t=2025-10-07T19:29:12-0400 lvl=info msg="tunnel session started" obj=tunnels.session
+t=2025-10-07T19:32:09-0400 lvl=eror msg="heartbeat timeout, terminating session" obj=tunnels.session obj=csess id=c2fe494be61b clientid=b963f82293f797df62b181834af7ad61
+t=2025-10-07T20:05:12-0400 lvl=eror msg="heartbeat timeout, terminating session" obj=tunnels.session obj=csess id=0e94ac10d3e0 clientid=b963f82293f797df62b181834af7ad61
+t=2025-10-07T20:05:12-0400 lvl=eror msg="session closed, starting reconnect loop" obj=tunnels.session obj=csess id=860da888befa err="session closed"
+t=2025-10-07T20:05:13-0400 lvl=info msg="client session established" obj=tunnels.session
+t=2025-10-07T20:05:13-0400 lvl=info msg="tunnel session started" obj=tunnels.session
+t=2025-10-07T20:21:23-0400 lvl=eror msg="heartbeat timeout, terminating session" obj=tunnels.session obj=csess id=b5ee02e47c79 clientid=b963f82293f797df62b181834af7ad61
+t=2025-10-07T20:21:23-0400 lvl=eror msg="session closed, starting reconnect loop" obj=tunnels.session obj=csess id=860da888befa err="session closed"
+t=2025-10-07T20:21:25-0400 lvl=info msg="client session established" obj=tunnels.session
+t=2025-10-07T20:21:25-0400 lvl=info msg="tunnel session started" obj=tunnels.session
+t=2025-10-07T20:21:33-0400 lvl=info msg="join connections" obj=join id=1fba86ec154e l=127.0.0.1:8501 r=[2601:19b:702:40e0:acb4:6ca1:2b01:f3df]:55153
+t=2025-10-07T20:21:33-0400 lvl=info msg="join connections" obj=join id=ec6a42fd4ff3 l=127.0.0.1:8501 r=[2601:19b:702:40e0:acb4:6ca1:2b01:f3df]:55153
+t=2025-10-07T20:21:33-0400 lvl=info msg="join connections" obj=join id=b5a4bc3fde46 l=127.0.0.1:8501 r=[2601:19b:702:40e0:acb4:6ca1:2b01:f3df]:55158
+t=2025-10-07T20:44:28-0400 lvl=info msg="join connections" obj=join id=08ce2a1da222 l=127.0.0.1:8501 r=[2601:19b:702:40e0:2850:da7e:7370:e73c]:55575
+t=2025-10-07T20:44:28-0400 lvl=info msg="join connections" obj=join id=bb45a07d35a9 l=127.0.0.1:8501 r=[2601:19b:702:40e0:2850:da7e:7370:e73c]:55575
+t=2025-10-07T20:44:30-0400 lvl=warn msg="failed to open private leg" id=0693a3e7526d privaddr=localhost:8501 err="dial tcp [::1]:8501: connect: connection refused"
+t=2025-10-07T20:44:30-0400 lvl=warn msg="failed to open private leg" id=7f067aa150ab privaddr=localhost:8501 err="dial tcp [::1]:8501: connect: connection refused"
+t=2025-10-07T20:44:32-0400 lvl=info msg="join connections" obj=join id=227d98ec6197 l=127.0.0.1:8501 r=[2601:19b:702:40e0:acb4:6ca1:2b01:f3df]:55585
+t=2025-10-07T20:44:32-0400 lvl=info msg="join connections" obj=join id=9b8bf694960f l=127.0.0.1:8501 r=[2601:19b:702:40e0:acb4:6ca1:2b01:f3df]:55585
+t=2025-10-07T20:44:33-0400 lvl=info msg="join connections" obj=join id=b3640cd8f4e7 l=127.0.0.1:8501 r=[2601:19b:702:40e0:acb4:6ca1:2b01:f3df]:55590
