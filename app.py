@@ -127,14 +127,22 @@ with st.sidebar:
 
     # API Configuration
     with st.expander("🔑 Apollo.io API Key"):
-        apollo_key = st.text_input("API Key", type="password",
-                                   value=os.getenv('APOLLO_API_KEY', ''))
+        # Show status instead of the actual key
+        current_key = os.getenv('APOLLO_API_KEY', '')
+        if current_key:
+            st.info(f"✅ API Key configured (ends with: ...{current_key[-4:]})")
+        else:
+            st.warning("⚠️ No API key configured")
+
+        apollo_key = st.text_input("Enter New API Key", type="password",
+                                   placeholder="Paste your Apollo.io API key here")
 
         if st.button("Save API Key"):
             if apollo_key:
                 os.environ['APOLLO_API_KEY'] = apollo_key
                 st.session_state.apollo_configured = True
                 st.success("✅ API key saved!")
+                st.rerun()
 
     # Scheduler Status
     st.markdown("---")
