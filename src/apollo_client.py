@@ -4,6 +4,79 @@ import requests
 import os
 from typing import List, Dict, Optional
 
+
+def generate_job_title_variations(job_title: str) -> List[str]:
+    """
+    Generate variations of a job title including senior roles.
+
+    Args:
+        job_title: The base job title (e.g., "Data Engineer")
+
+    Returns:
+        List of job title variations
+    """
+    # Clean the title
+    title = job_title.strip()
+
+    # Common seniority levels
+    seniority_prefixes = [
+        "",  # Base level
+        "Senior",
+        "Lead",
+        "Staff",
+        "Principal",
+        "Sr.",
+        "Jr.",
+        "Junior"
+    ]
+
+    variations = []
+
+    # Remove existing seniority prefix if present
+    base_title = title
+    for prefix in seniority_prefixes:
+        if prefix and title.lower().startswith(prefix.lower()):
+            base_title = title[len(prefix):].strip()
+            break
+
+    # Generate variations with different seniority levels
+    for prefix in seniority_prefixes:
+        if prefix:
+            variations.append(f"{prefix} {base_title}")
+        else:
+            variations.append(base_title)
+
+    # Add some common title variations
+    common_mappings = {
+        "engineer": ["developer", "programmer"],
+        "developer": ["engineer", "programmer"],
+        "manager": ["lead", "director"],
+        "analyst": ["specialist"],
+        "scientist": ["researcher"],
+    }
+
+    # Check if base title contains any mappable words
+    for key, synonyms in common_mappings.items():
+        if key.lower() in base_title.lower():
+            for synonym in synonyms:
+                # Replace the key word with synonym
+                synonym_title = base_title.lower().replace(key.lower(), synonym)
+                variations.append(synonym_title.title())
+                # Add senior versions
+                variations.append(f"Senior {synonym_title.title()}")
+                variations.append(f"Lead {synonym_title.title()}")
+
+    # Remove duplicates while preserving order
+    seen = set()
+    unique_variations = []
+    for v in variations:
+        v_lower = v.lower()
+        if v_lower not in seen:
+            seen.add(v_lower)
+            unique_variations.append(v)
+
+    return unique_variations
+
 class ApolloClient:
     """Client for interacting with Apollo.io API."""
 

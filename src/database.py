@@ -29,6 +29,17 @@ class User(Base):
     gmail_token = Column(Text)  # Pickled token data
     gmail_authenticated = Column(Boolean, default=False)
 
+    # Custom email templates (optional, per user)
+    custom_initial_template = Column(Text)  # Custom initial email template
+    custom_followup_template = Column(Text)  # Custom follow-up email template
+    use_custom_templates = Column(Boolean, default=False)
+
+    # Onboarding and profile completion
+    profile_completed = Column(Boolean, default=False)
+    profile_name = Column(String(200))
+    profile_email = Column(String(200))
+    profile_linkedin = Column(String(500))
+
     def reset_monthly_limits(self):
         """Reset monthly usage counters."""
         self.emails_sent_count = 0
@@ -121,7 +132,11 @@ class Database:
                     'emails_sent_count': user.emails_sent_count,
                     'campaigns_count': user.campaigns_count,
                     'subscription_active': user.subscription_active,
-                    'gmail_authenticated': user.gmail_authenticated or False
+                    'gmail_authenticated': user.gmail_authenticated or False,
+                    'profile_completed': user.profile_completed or False,
+                    'profile_name': user.profile_name,
+                    'profile_email': user.profile_email,
+                    'profile_linkedin': user.profile_linkedin
                 }
             return None
         finally:
@@ -142,7 +157,11 @@ class Database:
                     'emails_sent_count': user.emails_sent_count,
                     'campaigns_count': user.campaigns_count,
                     'subscription_active': user.subscription_active,
-                    'gmail_authenticated': user.gmail_authenticated or False
+                    'gmail_authenticated': user.gmail_authenticated or False,
+                    'profile_completed': user.profile_completed or False,
+                    'profile_name': user.profile_name,
+                    'profile_email': user.profile_email,
+                    'profile_linkedin': user.profile_linkedin
                 }
             return None
         finally:
@@ -250,6 +269,83 @@ class Database:
                 session.commit()
                 return True
             return False
+        finally:
+            session.close()
+
+    def save_custom_templates(self, user_id, initial_template=None, followup_template=None, use_custom=True):
+        """Save custom email templates for a user."""
+        session = self.get_session()
+        try:
+            user = session.query(User).filter_by(id=user_id).first()
+            if user:
+                if initial_template:
+                    user.custom_initial_template = initial_template
+                if followup_template:
+                    user.custom_followup_template = followup_template
+                user.use_custom_templates = use_custom
+                session.commit()
+                return True
+            return False
+        finally:
+            session.close()
+
+    def get_custom_templates(self, user_id):
+        """Get custom email templates for a user."""
+        session = self.get_session()
+        try:
+            user = session.query(User).filter_by(id=user_id).first()
+            if user:
+                return {
+                    'initial': user.custom_initial_template,
+                    'followup': user.custom_followup_template,
+                    'use_custom': user.use_custom_templates
+                }
+            return None
+        finally:
+            session.close()
+
+    def toggle_custom_templates(self, user_id, use_custom):
+        """Toggle between custom and default templates."""
+        session = self.get_session()
+        try:
+            user = session.query(User).filter_by(id=user_id).first()
+            if user:
+                user.use_custom_templates = use_custom
+                session.commit()
+                return True
+            return False
+        finally:
+            session.close()
+
+    def save_user_profile(self, user_id, name, email, linkedin):
+        """Save user profile information and mark profile as completed."""
+        session = self.get_session()
+        try:
+            user = session.query(User).filter_by(id=user_id).first()
+            if user:
+                user.profile_name = name
+                user.profile_email = email
+                user.profile_linkedin = linkedin
+                user.profile_completed = True
+                session.commit()
+                return True
+            return False
+        finally:
+            session.close()
+
+    def get_user_profile(self, user_id):
+        """Get user profile information."""
+        session = self.get_session()
+        try:
+            user = session.query(User).filter_by(id=user_id).first()
+            if user:
+                return {
+                    'name': user.profile_name,
+                    'email': user.profile_email,
+                    'linkedin': user.profile_linkedin,
+                    'completed': user.profile_completed
+                }
+            return None
         finally:
             session.close()
 

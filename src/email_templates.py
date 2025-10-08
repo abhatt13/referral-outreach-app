@@ -22,6 +22,13 @@ class EmailTemplateManager:
             ]
         }
 
+        # Custom templates (set per user)
+        self.custom_templates = {
+            'initial': None,
+            'followup': None,
+            'use_custom': False
+        }
+
     def load_template(self, template_name: str) -> str:
         """Load a template from file."""
         template_path = os.path.join(self.templates_dir, template_name)
@@ -39,6 +46,14 @@ class EmailTemplateManager:
             'your_email': email,
             'your_linkedin': linkedin,
             'your_skills': skills
+        }
+
+    def set_custom_templates(self, initial_template: str = None, followup_template: str = None, use_custom: bool = False):
+        """Set custom templates for this user."""
+        self.custom_templates = {
+            'initial': initial_template,
+            'followup': followup_template,
+            'use_custom': use_custom
         }
 
     def personalize_email(self, template: str, recipient: Dict, job_info: Dict) -> tuple:
@@ -103,7 +118,11 @@ class EmailTemplateManager:
         Returns:
             Tuple of (subject, body)
         """
-        template = self.load_template('initial_email.txt')
+        # Use custom template if available and enabled
+        if self.custom_templates['use_custom'] and self.custom_templates['initial']:
+            template = self.custom_templates['initial']
+        else:
+            template = self.load_template('initial_email.txt')
         return self.personalize_email(template, recipient, job_info)
 
     def get_followup_email(self, recipient: Dict, job_info: Dict) -> tuple:
@@ -117,7 +136,11 @@ class EmailTemplateManager:
         Returns:
             Tuple of (subject, body)
         """
-        template = self.load_template('followup_email.txt')
+        # Use custom template if available and enabled
+        if self.custom_templates['use_custom'] and self.custom_templates['followup']:
+            template = self.custom_templates['followup']
+        else:
+            template = self.load_template('followup_email.txt')
         return self.personalize_email(template, recipient, job_info)
 
     def preview_email(self, template_type: str, recipient: Dict, job_info: Dict) -> str:

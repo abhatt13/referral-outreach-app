@@ -49,6 +49,29 @@ if 'db' not in st.session_state:
 if 'template_manager' not in st.session_state:
     st.session_state.template_manager = EmailTemplateManager()
 
+# Load user's profile and custom templates if they exist
+if 'user' in st.session_state and st.session_state.user:
+    user = st.session_state.user
+
+    # Load user profile into template manager
+    if user.get('profile_completed') and user.get('profile_name'):
+        st.session_state.template_manager.set_user_info(
+            name=user['profile_name'],
+            email=user['profile_email'],
+            linkedin=user['profile_linkedin'],
+            skills=[]
+        )
+        st.session_state.user_configured = True
+
+    # Load custom templates
+    custom_templates = st.session_state.db.get_custom_templates(user['id'])
+    if custom_templates:
+        st.session_state.template_manager.set_custom_templates(
+            initial_template=custom_templates['initial'],
+            followup_template=custom_templates['followup'],
+            use_custom=custom_templates['use_custom']
+        )
+
 if 'job_parser' not in st.session_state:
     st.session_state.job_parser = JobParser()
 
@@ -68,85 +91,62 @@ if 'scheduler' not in st.session_state:
 st.title("📧 Referral Outreach Automation")
 st.markdown("Automate your job referral requests with personalized cold emails")
 
+# Check if user needs onboarding
+from onboarding import check_onboarding_status
+if not check_onboarding_status():
+    st.stop()
+
 # Display user info in sidebar
 display_user_info_sidebar()
 
-# Display Gmail authentication UI
+# Display Gmail authentication UI in sidebar
 gmail_authentication_ui()
 
-# Sidebar for configuration
+# Sidebar for quick settings
 with st.sidebar:
-    st.header("⚙️ Configuration")
+    st.markdown("---")
+    st.header("⚙️ Settings")
 
-    # User Information
-    with st.expander("👤 Your Information", expanded=not st.session_state.user_configured):
-        st.markdown("**Upload Your Resume** (PDF format)")
-        resume_file = st.file_uploader("Resume", type=['pdf'], key="resume_upload")
+    # Quick profile edit
+    with st.expander("✏️ Edit Profile"):
+        user_info = st.session_state.template_manager.user_info
 
-        if resume_file is not None and not st.session_state.resume_uploaded:
-            with st.spinner("Parsing your resume..."):
-                file_bytes = resume_file.read()
-                parsed_data = st.session_state.resume_parser.parse_pdf(file_bytes)
+        edit_name = st.text_input("Name", value=user_info.get('your_name', ''))
+        edit_email = st.text_input("Email", value=user_info.get('your_email', ''))
+        edit_linkedin = st.text_input("LinkedIn", value=user_info.get('your_linkedin', ''))
 
-                if parsed_data:
-                    # Store full parsed data for later job matching
-                    st.session_state.full_parsed_resume = parsed_data
-
-                    # Format for initial display
-                    formatted_data = st.session_state.resume_parser.format_for_email(parsed_data)
-
-                    # Pre-fill the form with parsed data
-                    st.session_state.parsed_resume = formatted_data
-                    st.session_state.resume_uploaded = True
-                    st.success("✅ Resume parsed successfully!")
-                    st.rerun()
-
-        # Get values from parsed resume or use defaults
-        default_name = st.session_state.get('parsed_resume', {}).get('your_name', 'Your Name')
-        default_email = st.session_state.get('parsed_resume', {}).get('your_email', 'your.email@example.com')
-        default_linkedin = st.session_state.get('parsed_resume', {}).get('your_linkedin', 'https://www.linkedin.com/in/aakashpadmanabhbhatt/')
-        default_skills = st.session_state.get('parsed_resume', {}).get('your_skills', ['X years of experience in...', 'Expertise in...', 'Proven track record of...'])
-
-        your_name = st.text_input("Your Name", value=default_name)
-        your_email = st.text_input("Your Email", value=default_email)
-        your_linkedin = st.text_input("Your LinkedIn URL", value=default_linkedin)
-
-        st.markdown("**Your Key Skills/Experiences** (3 bullet points)")
-        skill1 = st.text_input("Skill 1", value=default_skills[0] if len(default_skills) > 0 else "X years of experience in...")
-        skill2 = st.text_input("Skill 2", value=default_skills[1] if len(default_skills) > 1 else "Expertise in...")
-        skill3 = st.text_input("Skill 3", value=default_skills[2] if len(default_skills) > 2 else "Proven track record of...")
-
-        if st.button("Save Your Info"):
+        if st.button("Update Profile"):
             st.session_state.template_manager.set_user_info(
-                name=your_name,
-                email=your_email,
-                linkedin=your_linkedin,
-                skills=[skill1, skill2, skill3]
+                name=edit_name,
+                email=edit_email,
+                linkedin=edit_linkedin,
+                skills=[]
             )
-            st.session_state.user_configured = True
-            st.success("Information saved!")
+            st.success("✅ Profile updated!")
+            st.rerun()
 
     # API Configuration
-    with st.expander("🔑 API Keys"):
-        apollo_key = st.text_input("Apollo.io API Key", type="password",
+    with st.expander("🔑 Apollo.io API Key"):
+        apollo_key = st.text_input("API Key", type="password",
                                    value=os.getenv('APOLLO_API_KEY', ''))
 
-        if apollo_key:
-            os.environ['APOLLO_API_KEY'] = apollo_key
-
-        st.markdown("**Gmail OAuth**")
-        st.info("Gmail authentication will be handled automatically when you send emails. Make sure you have `credentials.json` in the project root.")
+        if st.button("Save API Key"):
+            if apollo_key:
+                os.environ['APOLLO_API_KEY'] = apollo_key
+                st.session_state.apollo_configured = True
+                st.success("✅ API key saved!")
 
     # Scheduler Status
-    st.header("⏰ Follow-up Scheduler")
+    st.markdown("---")
+    st.subheader("⏰ Scheduler")
     if st.session_state.scheduler and st.session_state.scheduler.is_running():
-        st.success("✅ Scheduler Running")
-        if st.button("Stop Scheduler"):
+        st.success("✅ Running")
+        if st.button("Stop", use_container_width=True):
             st.session_state.scheduler.stop()
             st.rerun()
     else:
-        st.warning("⏸️ Scheduler Stopped")
-        if st.button("Start Scheduler"):
+        st.warning("⏸️ Stopped")
+        if st.button("Start", use_container_width=True):
             if not st.session_state.scheduler:
                 # Initialize scheduler
                 try:
@@ -165,46 +165,45 @@ with st.sidebar:
                 st.rerun()
 
 # Main tabs
-tab1, tab2, tab3, tab4 = st.tabs(["📝 New Campaign", "📊 Dashboard", "✉️ Email Templates", "📚 History"])
+tab1, tab2, tab3, tab4 = st.tabs(["📝 New Campaign", "📊 Referral Sent", "✉️ Email Templates", "📚 History"])
 
 with tab1:
-    st.header("Create New Outreach Campaign")
+    st.markdown("### 🎯 Create New Campaign")
+    st.markdown("Find and contact people at your target company")
+    st.markdown("---")
 
     # Check if user has configured their info
     if not st.session_state.user_configured:
-        st.warning("⚠️ Please upload your resume and save your information in the sidebar before creating a campaign!")
-        st.info("👈 Go to the sidebar and upload your resume to get started.")
+        st.warning("⚠️ Please complete your profile setup first!")
         st.stop()
 
-    col1, col2 = st.columns([2, 1])
+    # Modern card-style layout
+    with st.container():
+        col1, col2 = st.columns([3, 2])
 
-    with col1:
-        st.subheader("Job Information")
+        with col1:
+            st.markdown("#### 📋 Job Details")
 
-        # Input method selection
-        input_method = st.radio("How would you like to input job details?",
-                               ["Paste Job Description", "Manual Entry"])
+            # Simplified input - just company and title
+            company = st.text_input(
+                "Company Name",
+                placeholder="e.g., Google, Microsoft, Amazon...",
+                help="Enter the exact company name as it appears on LinkedIn"
+            )
 
-        if input_method == "Paste Job Description":
-            job_description = st.text_area("Paste Job Description", height=200,
-                                          placeholder="Paste the full job description here...")
+            job_title = st.text_input(
+                "Target Job Title",
+                placeholder="e.g., Software Engineer, Data Scientist...",
+                help="We'll search for people with this title and related senior positions"
+            )
 
-            if st.button("Parse Job Description"):
-                if job_description:
-                    parsed = st.session_state.job_parser.parse(job_description)
-
-                    if parsed['company']:
-                        st.session_state.parsed_job = parsed
-                        st.success(f"✅ Detected Company: {parsed['company']}")
-                        if parsed['job_title']:
-                            st.success(f"✅ Detected Title: {parsed['job_title']}")
-                    else:
-                        st.warning("Could not auto-detect company. Please enter manually below.")
-                        st.session_state.parsed_job = parsed
-
-        else:  # Manual Entry
-            company = st.text_input("Company Name", placeholder="e.g., Google")
-            job_title = st.text_input("Job Title", placeholder="e.g., Senior Software Engineer")
+            num_contacts = st.slider(
+                "Number of people to contact",
+                min_value=3,
+                max_value=20,
+                value=5,
+                help="How many people at this company would you like to reach out to?"
+            )
 
             if company and job_title:
                 st.session_state.parsed_job = {
@@ -213,22 +212,40 @@ with tab1:
                     'description': ''
                 }
 
-        # Allow editing of parsed data
-        if 'parsed_job' in st.session_state:
-            st.markdown("---")
-            st.subheader("Confirm Details")
+        with col2:
+            st.markdown("#### 💡 Tips")
+            st.info("""
+            **For best results:**
 
-            final_company = st.text_input("Company", value=st.session_state.parsed_job.get('company', ''))
-            final_title = st.text_input("Job Title", value=st.session_state.parsed_job.get('job_title', ''))
+            ✅ Use the exact company name
 
-            num_contacts = st.slider("Number of people to contact", min_value=3, max_value=20, value=3)
+            ✅ Target specific job titles
 
-            if st.button("🔍 Find People & Preview Emails", type="primary"):
+            ✅ We'll automatically find people with matching and senior roles
+
+            ⏰ Follow-ups sent automatically after 1 day
+            """)
+
+    # Search button
+    if 'parsed_job' in st.session_state:
+        st.markdown("---")
+        final_company = st.session_state.parsed_job.get('company', '')
+        final_title = st.session_state.parsed_job.get('job_title', '')
+
+        col_a, col_b, col_c = st.columns([1, 2, 1])
+        with col_b:
+            if st.button("🔍 Find People & Preview Emails", type="primary", use_container_width=True):
                 if final_company and final_title:
                     with st.spinner("Searching for people at " + final_company + "..."):
                         try:
+                            from apollo_client import generate_job_title_variations
                             apollo = ApolloClient()
-                            people = apollo.search_people(final_company, limit=num_contacts)
+
+                            # Generate smart job title variations
+                            job_titles = generate_job_title_variations(final_title)
+                            st.info(f"Searching for: {', '.join(job_titles[:5])}{'...' if len(job_titles) > 5 else ''}")
+
+                            people = apollo.search_people(final_company, titles=job_titles, limit=num_contacts)
 
                             if people:
                                 # Filter out people without emails
@@ -274,16 +291,6 @@ with tab1:
                             st.error(f"Error: {str(e)}")
                 else:
                     st.error("Please provide both company name and job title")
-
-    with col2:
-        st.subheader("Tips")
-        st.info("""
-        **For best results:**
-        - Use the exact company name as it appears on LinkedIn
-        - Be specific with job titles
-        - The app will find Software Engineers and related roles by default
-        - Follow-ups are sent automatically after 1 day
-        """)
 
     # Show found people and email previews
     if 'found_people' in st.session_state:
@@ -441,14 +448,15 @@ with tab1:
                         st.error(f"Error sending emails: {str(e)}")
 
 with tab2:
-    st.header("Campaign Dashboard")
+    st.header("Referral Sent")
 
-    # Get campaign stats
+    # Get campaign stats for current user only
+    user = st.session_state.user
     session = st.session_state.db.get_session()
     try:
         from database import EmailCampaign, EmailLog
 
-        campaigns = session.query(EmailCampaign).order_by(EmailCampaign.created_at.desc()).all()
+        campaigns = session.query(EmailCampaign).filter_by(user_id=user['id']).order_by(EmailCampaign.created_at.desc()).all()
 
         if campaigns:
             for campaign in campaigns:
@@ -468,20 +476,117 @@ with tab2:
 with tab3:
     st.header("Email Templates")
 
-    st.markdown("You can customize your email templates by editing the files in the `templates/` folder:")
-    st.code("templates/initial_email.txt", language="text")
-    st.code("templates/followup_email.txt", language="text")
+    # Get user and their custom templates
+    user = st.session_state.user
+    custom_templates = st.session_state.db.get_custom_templates(user['id'])
 
-    st.info("Use these placeholders in your templates: {first_name}, {name}, {company}, {job_title}, {recipient_title}")
+    # Template mode selector
+    st.subheader("Template Mode")
+    use_custom = st.radio(
+        "Select template mode:",
+        ["Use Default Templates", "Use Custom Templates"],
+        index=1 if custom_templates and custom_templates['use_custom'] else 0
+    )
+
+    use_custom_bool = (use_custom == "Use Custom Templates")
+
+    # Show default templates section
+    st.markdown("---")
+    st.subheader("📄 Default Templates")
+
+    with st.expander("View Default Initial Email Template", expanded=False):
+        with open('templates/initial_email.txt', 'r') as f:
+            default_initial = f.read()
+        st.code(default_initial, language="text")
+
+    with st.expander("View Default Follow-up Email Template", expanded=False):
+        with open('templates/followup_email.txt', 'r') as f:
+            default_followup = f.read()
+        st.code(default_followup, language="text")
+
+    # Custom templates section
+    st.markdown("---")
+    st.subheader("✏️ Custom Templates")
+    st.info("Use these placeholders in your templates: {first_name}, {name}, {company}, {job_title}, {recipient_title}, {YOUR_NAME}, {YOUR_EMAIL}, {YOUR_LINKEDIN}")
+
+    # Get existing custom templates
+    initial_template_value = ""
+    followup_template_value = ""
+    if custom_templates:
+        initial_template_value = custom_templates['initial'] or ""
+        followup_template_value = custom_templates['followup'] or ""
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.markdown("**Custom Initial Email Template**")
+        custom_initial = st.text_area(
+            "Initial Email Template",
+            value=initial_template_value,
+            height=300,
+            placeholder="Subject: Your subject here\n\nHi {first_name},\n\nYour email body...",
+            key="custom_initial_template",
+            label_visibility="collapsed"
+        )
+
+    with col2:
+        st.markdown("**Custom Follow-up Email Template**")
+        custom_followup = st.text_area(
+            "Follow-up Email Template",
+            value=followup_template_value,
+            height=300,
+            placeholder="Subject: Your follow-up subject here\n\nHi {first_name},\n\nYour follow-up body...",
+            key="custom_followup_template",
+            label_visibility="collapsed"
+        )
+
+    if st.button("💾 Save Custom Templates", type="primary"):
+        if custom_initial.strip() or custom_followup.strip():
+            success = st.session_state.db.save_custom_templates(
+                user['id'],
+                initial_template=custom_initial if custom_initial.strip() else None,
+                followup_template=custom_followup if custom_followup.strip() else None,
+                use_custom=use_custom_bool
+            )
+            if success:
+                # Update template manager
+                st.session_state.template_manager.set_custom_templates(
+                    initial_template=custom_initial if custom_initial.strip() else None,
+                    followup_template=custom_followup if custom_followup.strip() else None,
+                    use_custom=use_custom_bool
+                )
+                st.success("✅ Custom templates saved successfully!")
+                st.rerun()
+            else:
+                st.error("❌ Failed to save templates")
+        else:
+            st.warning("⚠️ Please enter at least one custom template")
+
+    # Update template manager mode when switching
+    if custom_templates and custom_templates['use_custom'] != use_custom_bool:
+        st.session_state.db.toggle_custom_templates(user['id'], use_custom_bool)
+        st.session_state.template_manager.set_custom_templates(
+            initial_template=custom_templates['initial'],
+            followup_template=custom_templates['followup'],
+            use_custom=use_custom_bool
+        )
+        st.rerun()
 
 with tab4:
     st.header("Email History")
 
+    # Get current user's emails only
+    user = st.session_state.user
     session = st.session_state.db.get_session()
     try:
         from database import EmailLog, Contact, EmailCampaign
 
-        emails = session.query(EmailLog).order_by(EmailLog.sent_at.desc()).limit(50).all()
+        # Filter emails by user's campaigns
+        emails = session.query(EmailLog).join(
+            EmailCampaign, EmailLog.campaign_id == EmailCampaign.id
+        ).filter(
+            EmailCampaign.user_id == user['id']
+        ).order_by(EmailLog.sent_at.desc()).limit(50).all()
 
         if emails:
             for email in emails:
