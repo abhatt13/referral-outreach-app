@@ -28,12 +28,12 @@ class MultiUserGmailClient:
         self.credentials_file = credentials_file
         self.service = None
 
-    def get_authorization_url(self, redirect_uri: str = 'urn:ietf:wg:oauth:2.0:oob'):
+    def get_authorization_url(self, redirect_uri: str = 'http://localhost:8501'):
         """
         Get OAuth authorization URL for user to authenticate.
 
         Args:
-            redirect_uri: OAuth redirect URI
+            redirect_uri: OAuth redirect URI (must match Google Cloud Console config)
 
         Returns:
             Tuple of (authorization_url, flow_state)
