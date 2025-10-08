@@ -29,6 +29,10 @@ st.set_page_config(
     layout="wide"
 )
 
+# Handle OAuth callback first (before any other UI)
+from gmail_oauth_handler import handle_gmail_oauth_callback
+handle_gmail_oauth_callback()
+
 # Check authentication first
 if not check_authentication():
     login_signup_page()

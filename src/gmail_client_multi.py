@@ -28,7 +28,7 @@ class MultiUserGmailClient:
         self.credentials_file = credentials_file
         self.service = None
 
-    def get_authorization_url(self, redirect_uri: str = 'http://localhost:8501'):
+    def get_authorization_url(self, redirect_uri: str = 'https://carole-villainous-ineffably.ngrok-free.dev'):
         """
         Get OAuth authorization URL for user to authenticate.
 

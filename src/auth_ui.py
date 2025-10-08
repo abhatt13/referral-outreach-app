@@ -117,13 +117,13 @@ def logout():
     st.rerun()
 
 
-def gmail_authentication_ui():
+def gmail_authentication_ui(app_url: str = "https://carole-villainous-ineffably.ngrok-free.dev"):
     """Display Gmail authentication UI in sidebar."""
     if not st.session_state.authenticated:
         return
 
     from src.database import Database
-    from src.gmail_client_multi import MultiUserGmailClient
+    from src.gmail_oauth_handler import initiate_gmail_oauth
 
     db = Database()
     user = st.session_state.user
@@ -147,41 +147,15 @@ def gmail_authentication_ui():
             st.markdown("""
             **Quick Setup:**
             1. Click "Connect Gmail Account" below
-            2. Click the authorization link
+            2. Authorize on Google's page
             3. **Important:** Click "Advanced" → "Go to App (unsafe)" on the warning
-            4. Authorize the app
-            5. Copy the code and paste it here
+            4. You'll be redirected back automatically
 
             *The warning is normal - the app only sends emails, nothing else!*
             """)
 
-        if st.sidebar.button("Connect Gmail Account"):
-            try:
-                gmail_client = MultiUserGmailClient()
-                auth_url, flow = gmail_client.get_authorization_url()
-
-                # Store flow in session state
-                st.session_state.gmail_flow = flow
-
-                st.sidebar.markdown(f"[Click here to authorize Gmail]({auth_url})")
-                st.sidebar.text_input(
-                    "Paste authorization code here:",
-                    key="gmail_auth_code",
-                    help="Copy the code from the authorization page"
-                )
-
-                if st.session_state.get('gmail_auth_code'):
-                    auth_code = st.session_state.gmail_auth_code
-                    try:
-                        creds = gmail_client.exchange_code_for_token(flow, auth_code)
-                        db.save_gmail_token(user['id'], creds)
-                        st.session_state.user = db.get_user_by_username(user['username'])
-                        st.success("✅ Gmail connected successfully!")
-                        st.rerun()
-                    except Exception as e:
-                        st.error(f"Error: {str(e)}")
-            except Exception as e:
-                st.error(f"Error starting OAuth flow: {str(e)}")
+        if st.sidebar.button("Connect Gmail Account", type="primary"):
+            initiate_gmail_oauth(app_url)
 
 
 def display_user_info_sidebar():

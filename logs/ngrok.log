@@ -1429,3 +1429,10 @@ t=2025-10-07T20:52:34-0400 lvl=warn msg="failed to open private leg" id=bf7ba41f
 t=2025-10-07T20:52:36-0400 lvl=info msg="join connections" obj=join id=fa484073ae14 l=127.0.0.1:8501 r=[2601:19b:702:40e0:acb4:6ca1:2b01:f3df]:55801
 t=2025-10-07T20:52:36-0400 lvl=info msg="join connections" obj=join id=56f29aded05a l=127.0.0.1:8501 r=[2601:19b:702:40e0:acb4:6ca1:2b01:f3df]:55801
 t=2025-10-07T20:52:36-0400 lvl=info msg="join connections" obj=join id=678b6fd49ae7 l=127.0.0.1:8501 r=[2601:19b:702:40e0:2850:da7e:7370:e73c]:55806
+t=2025-10-07T20:56:01-0400 lvl=info msg="join connections" obj=join id=ca57fcef2cdc l=127.0.0.1:8501 r=[2601:19b:702:40e0:acb4:6ca1:2b01:f3df]:55992
+t=2025-10-07T20:56:01-0400 lvl=info msg="join connections" obj=join id=59cd7bbd49ad l=127.0.0.1:8501 r=[2601:19b:702:40e0:acb4:6ca1:2b01:f3df]:55992
+t=2025-10-07T20:56:03-0400 lvl=warn msg="failed to open private leg" id=7d1acda39acf privaddr=localhost:8501 err="dial tcp [::1]:8501: connect: connection refused"
+t=2025-10-07T20:56:03-0400 lvl=warn msg="failed to open private leg" id=29bb53be1b6c privaddr=localhost:8501 err="dial tcp [::1]:8501: connect: connection refused"
+t=2025-10-07T20:56:05-0400 lvl=info msg="join connections" obj=join id=77e9fbc9b607 l=127.0.0.1:8501 r=[2601:19b:702:40e0:acb4:6ca1:2b01:f3df]:56003
+t=2025-10-07T20:56:05-0400 lvl=info msg="join connections" obj=join id=c4e19f85ae00 l=127.0.0.1:8501 r=[2601:19b:702:40e0:acb4:6ca1:2b01:f3df]:56003
+t=2025-10-07T20:56:05-0400 lvl=info msg="join connections" obj=join id=a0c8b15143f1 l=127.0.0.1:8501 r=[2601:19b:702:40e0:acb4:6ca1:2b01:f3df]:56008
