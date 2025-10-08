@@ -10,38 +10,60 @@ def handle_gmail_oauth_callback():
     # Check if we have an OAuth code in the URL
     query_params = st.query_params
 
-    if 'code' in query_params:
+    if 'code' in query_params and 'state' in query_params:
         code = query_params['code']
+        state = query_params['state']
 
-        # Check if we have a flow in session state
-        if 'gmail_flow' in st.session_state and st.session_state.authenticated:
-            try:
-                gmail_client = MultiUserGmailClient()
-                flow = st.session_state.gmail_flow
+        # Extract user_id from state parameter
+        try:
+            import json
+            state_data = json.loads(state)
+            user_id = state_data.get('user_id')
 
-                # Exchange code for token
-                creds = gmail_client.exchange_code_for_token(flow, code)
-
-                # Save token to database
-                db = Database()
-                user = st.session_state.user
-                db.save_gmail_token(user['id'], creds)
-
-                # Refresh user data
-                st.session_state.user = db.get_user_by_username(user['username'])
-
-                # Clear the flow from session
-                del st.session_state.gmail_flow
-
-                # Clear query params
+            if not user_id:
+                st.error("Invalid OAuth state")
                 st.query_params.clear()
+                return
 
-                st.success("✅ Gmail connected successfully!")
-                st.rerun()
+            # Get user from database
+            db = Database()
+            user = db.get_user_by_username(state_data.get('username'))
 
-            except Exception as e:
-                st.error(f"Error connecting Gmail: {str(e)}")
+            if not user:
+                st.error("User not found")
                 st.query_params.clear()
+                return
+
+            # Recreate the flow
+            gmail_client = MultiUserGmailClient()
+            from google_auth_oauthlib.flow import Flow
+            flow = Flow.from_client_secrets_file(
+                gmail_client.credentials_file,
+                scopes=['https://www.googleapis.com/auth/gmail.send'],
+                redirect_uri=state_data.get('redirect_uri')
+            )
+
+            # Exchange code for token
+            flow.fetch_token(code=code)
+            creds = flow.credentials
+
+            # Save token to database
+            db.save_gmail_token(user['id'], creds)
+
+            # Set session state
+            st.session_state.authenticated = True
+            st.session_state.user = user
+            st.session_state.token = state_data.get('jwt_token')
+
+            # Clear query params
+            st.query_params.clear()
+
+            st.success("✅ Gmail connected successfully!")
+            st.rerun()
+
+        except Exception as e:
+            st.error(f"Error connecting Gmail: {str(e)}")
+            st.query_params.clear()
 
 
 def initiate_gmail_oauth(app_url: str):
@@ -52,15 +74,39 @@ def initiate_gmail_oauth(app_url: str):
         app_url: The base URL of the app (for redirect)
     """
     try:
+        import json
         gmail_client = MultiUserGmailClient()
 
         # Use the app URL as redirect URI
         redirect_uri = app_url.rstrip('/')
 
-        auth_url, flow = gmail_client.get_authorization_url(redirect_uri=redirect_uri)
+        # Get user info from session
+        user = st.session_state.user
+        jwt_token = st.session_state.token
 
-        # Store flow in session state
-        st.session_state.gmail_flow = flow
+        # Create state parameter with user info
+        state_data = {
+            'user_id': user['id'],
+            'username': user['username'],
+            'jwt_token': jwt_token,
+            'redirect_uri': redirect_uri
+        }
+        state_param = json.dumps(state_data)
+
+        # Get authorization URL with custom state
+        from google_auth_oauthlib.flow import Flow
+        flow = Flow.from_client_secrets_file(
+            gmail_client.credentials_file,
+            scopes=['https://www.googleapis.com/auth/gmail.send'],
+            redirect_uri=redirect_uri,
+            state=state_param
+        )
+
+        auth_url, _ = flow.authorization_url(
+            access_type='offline',
+            include_granted_scopes='true',
+            prompt='consent'
+        )
 
         # Redirect user to Google OAuth
         st.markdown(f"""

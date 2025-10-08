@@ -1436,3 +1436,37 @@ t=2025-10-07T20:56:03-0400 lvl=warn msg="failed to open private leg" id=29bb53be
 t=2025-10-07T20:56:05-0400 lvl=info msg="join connections" obj=join id=77e9fbc9b607 l=127.0.0.1:8501 r=[2601:19b:702:40e0:acb4:6ca1:2b01:f3df]:56003
 t=2025-10-07T20:56:05-0400 lvl=info msg="join connections" obj=join id=c4e19f85ae00 l=127.0.0.1:8501 r=[2601:19b:702:40e0:acb4:6ca1:2b01:f3df]:56003
 t=2025-10-07T20:56:05-0400 lvl=info msg="join connections" obj=join id=a0c8b15143f1 l=127.0.0.1:8501 r=[2601:19b:702:40e0:acb4:6ca1:2b01:f3df]:56008
+t=2025-10-07T21:02:03-0400 lvl=info msg="join connections" obj=join id=b89d0e96b855 l=127.0.0.1:8501 r=217.182.175.162:36586
+t=2025-10-07T21:02:14-0400 lvl=info msg="join connections" obj=join id=ac6dc4d34a36 l=127.0.0.1:8501 r=[2601:19b:702:40e0:acb4:6ca1:2b01:f3df]:56160
+t=2025-10-07T21:02:14-0400 lvl=info msg="join connections" obj=join id=b554764cd529 l=127.0.0.1:8501 r=[2601:19b:702:40e0:acb4:6ca1:2b01:f3df]:56160
+t=2025-10-07T21:02:15-0400 lvl=info msg="join connections" obj=join id=5cb99df863ce l=127.0.0.1:8501 r=[2601:19b:702:40e0:acb4:6ca1:2b01:f3df]:56165
+t=2025-10-07T21:10:27-0400 lvl=info msg="join connections" obj=join id=d5c78480b5ee l=127.0.0.1:8501 r=[2601:19b:702:40e0:acb4:6ca1:2b01:f3df]:56464
+t=2025-10-07T21:10:27-0400 lvl=info msg="join connections" obj=join id=960ac9ec9760 l=127.0.0.1:8501 r=[2601:19b:702:40e0:acb4:6ca1:2b01:f3df]:56464
+t=2025-10-07T21:10:29-0400 lvl=warn msg="failed to open private leg" id=2b580dfc6edd privaddr=localhost:8501 err="dial tcp [::1]:8501: connect: connection refused"
+t=2025-10-07T21:10:29-0400 lvl=warn msg="failed to open private leg" id=4d672cc8f2cf privaddr=localhost:8501 err="dial tcp [::1]:8501: connect: connection refused"
+t=2025-10-07T21:10:31-0400 lvl=info msg="join connections" obj=join id=4d6c2db4f807 l=127.0.0.1:8501 r=[2601:19b:702:40e0:acb4:6ca1:2b01:f3df]:56475
+t=2025-10-07T21:10:31-0400 lvl=info msg="join connections" obj=join id=fd9fcacc8fdb l=127.0.0.1:8501 r=[2601:19b:702:40e0:acb4:6ca1:2b01:f3df]:56475
+t=2025-10-07T21:10:31-0400 lvl=info msg="join connections" obj=join id=8f6b989a40f9 l=127.0.0.1:8501 r=[2601:19b:702:40e0:acb4:6ca1:2b01:f3df]:56480
+t=2025-10-07T21:10:58-0400 lvl=info msg="join connections" obj=join id=0928448c1542 l=127.0.0.1:8501 r=[2601:19b:702:40e0:acb4:6ca1:2b01:f3df]:56506
+t=2025-10-07T21:10:59-0400 lvl=info msg="join connections" obj=join id=dee11c256764 l=127.0.0.1:8501 r=[2601:19b:702:40e0:acb4:6ca1:2b01:f3df]:56506
+t=2025-10-07T21:10:59-0400 lvl=info msg="join connections" obj=join id=fe8f29cf3cc0 l=127.0.0.1:8501 r=[2601:19b:702:40e0:2850:da7e:7370:e73c]:56513
+t=2025-10-07T21:11:32-0400 lvl=info msg="join connections" obj=join id=92d295e90599 l=127.0.0.1:8501 r=[2601:19b:702:40e0:2850:da7e:7370:e73c]:56543
+t=2025-10-07T21:11:32-0400 lvl=info msg="join connections" obj=join id=1854611235f3 l=127.0.0.1:8501 r=[2601:19b:702:40e0:2850:da7e:7370:e73c]:56543
+t=2025-10-07T21:11:33-0400 lvl=info msg="join connections" obj=join id=3b5d226edf59 l=127.0.0.1:8501 r=[2601:19b:702:40e0:acb4:6ca1:2b01:f3df]:56548
+t=2025-10-07T21:12:08-0400 lvl=info msg="join connections" obj=join id=486abdc1ccb6 l=127.0.0.1:8501 r=[2601:19b:702:40e0:acb4:6ca1:2b01:f3df]:56564
+t=2025-10-07T21:12:09-0400 lvl=info msg="join connections" obj=join id=e4c5ef7cec88 l=127.0.0.1:8501 r=[2601:19b:702:40e0:acb4:6ca1:2b01:f3df]:56564
+t=2025-10-07T21:12:09-0400 lvl=info msg="join connections" obj=join id=79c04b793a87 l=127.0.0.1:8501 r=[2601:19b:702:40e0:acb4:6ca1:2b01:f3df]:56569
+t=2025-10-07T21:14:33-0400 lvl=info msg="join connections" obj=join id=0b290bc54cdb l=127.0.0.1:8501 r=[2601:19b:702:40e0:acb4:6ca1:2b01:f3df]:56564
+t=2025-10-07T21:14:33-0400 lvl=info msg="join connections" obj=join id=95ddcd8d2fde l=127.0.0.1:8501 r=[2601:19b:702:40e0:acb4:6ca1:2b01:f3df]:56564
+t=2025-10-07T21:14:35-0400 lvl=warn msg="failed to open private leg" id=416a63b01d50 privaddr=localhost:8501 err="dial tcp [::1]:8501: connect: connection refused"
+t=2025-10-07T21:14:35-0400 lvl=warn msg="failed to open private leg" id=b8a121f93cbd privaddr=localhost:8501 err="dial tcp [::1]:8501: connect: connection refused"
+t=2025-10-07T21:14:36-0400 lvl=warn msg="failed to open private leg" id=3f06908119da privaddr=localhost:8501 err="dial tcp [::1]:8501: connect: connection refused"
+t=2025-10-07T21:14:36-0400 lvl=warn msg="failed to open private leg" id=1c3e517746ee privaddr=localhost:8501 err="dial tcp [::1]:8501: connect: connection refused"
+t=2025-10-07T21:14:36-0400 lvl=warn msg="failed to open private leg" id=3a2ffe389e77 privaddr=localhost:8501 err="dial tcp [::1]:8501: connect: connection refused"
+t=2025-10-07T21:14:36-0400 lvl=warn msg="failed to open private leg" id=8ce414b4181a privaddr=localhost:8501 err="dial tcp [::1]:8501: connect: connection refused"
+t=2025-10-07T21:14:37-0400 lvl=warn msg="failed to open private leg" id=2f3418443048 privaddr=localhost:8501 err="dial tcp [::1]:8501: connect: connection refused"
+t=2025-10-07T21:14:37-0400 lvl=warn msg="failed to open private leg" id=b8a2d1c194db privaddr=localhost:8501 err="dial tcp [::1]:8501: connect: connection refused"
+t=2025-10-07T21:14:38-0400 lvl=info msg="join connections" obj=join id=bd8b00f7088f l=127.0.0.1:8501 r=[2601:19b:702:40e0:2850:da7e:7370:e73c]:56689
+t=2025-10-07T21:14:38-0400 lvl=info msg="join connections" obj=join id=6f8d9e16e841 l=127.0.0.1:8501 r=[2601:19b:702:40e0:2850:da7e:7370:e73c]:56689
+t=2025-10-07T21:14:38-0400 lvl=info msg="join connections" obj=join id=8a2160dd14dd l=127.0.0.1:8501 r=[2601:19b:702:40e0:2850:da7e:7370:e73c]:56694
+t=2025-10-07T21:14:39-0400 lvl=info msg="join connections" obj=join id=2316929ecfbc l=127.0.0.1:8501 r=[2601:19b:702:40e0:acb4:6ca1:2b01:f3df]:56699
